@@ -1,0 +1,98 @@
+<!--
+welcome page is for logging in directly or
+redirecting the user to the sign up page
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Sign_up_page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+  <div class="full-width-container">
+    </br></br>
+    <div class="row">
+      <div class="col-md-5">
+        <button type = "button" class="btn btn-primary btn-lg" onclick="redirect_welcome()">Return Home</button>
+      </div>
+      <div class="col-md-4">
+
+      </div>
+    </div>
+  </div>
+  <div class="full-width-container">
+    <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-6">
+        <h1>Sign up</h1>
+        <p>Create a custom user name and password</p>
+        <form onSubmit = "return checkPassword(this), test()" action="signup" method="POST" autocomplete="off">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <input type="password" name="password2" placeholder="Re-enter Password" required>
+          <input type="submit" class="btn btn-primary btn-lg">
+        </form>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+        <br>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+    function redirect_welcome() {
+      location.replace("/");
+    }
+    function checkPassword(form) { 
+          password1 = form.password.value; 
+          password2 = form.password2.value; 
+          if (password1 == '') 
+              alert ("Please enter Password"); 
+          else if (password2 == '') 
+              alert ("Please enter confirm password");    
+          else if (password1 != password2) { 
+              alert ("\nPassword did not match: Please try again...") 
+              return false; 
+          } 
+          else{ 
+              return true; 
+          } 
+      }
+      function test() {
+        console.log("before");
+        setTimeout(function(){
+          console.log("pause");
+          $.post('/server_alert', function (response) {
+            //var data = response;
+            var data = response.message;
+            console.log(data);
+            alert("That username is already in use");
+            window.location.reload();
+            //console.log("reloaded");
+          }); 
+        }, 1000);
+        console.log("after");
+    }
+  </script>
+</body>
+
+</html>

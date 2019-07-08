@@ -1,0 +1,16 @@
+
+
+body {
+  background-image: url("/bg1.jpg");
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  
+}
+
+.a1 {
+    text-align: center;
+}
+
+.btn-space {
+    margin: 5px;
+}
+
