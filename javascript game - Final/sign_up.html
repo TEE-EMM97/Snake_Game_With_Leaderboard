@@ -1,6 +1,5 @@
 <!--
-welcome page is for logging in directly or
-redirecting the user to the sign up page
+sign up page is for creating a new user
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -58,10 +57,11 @@ redirecting the user to the sign up page
 
 
   <script>
-
+  //redirects to welcome page
     function redirect_welcome() {
       location.replace("/");
     }
+    //checks if passwords are equal before submission
     function checkPassword(form) { 
           password1 = form.password.value; 
           password2 = form.password2.value; 
@@ -77,20 +77,16 @@ redirecting the user to the sign up page
               return true; 
           } 
       }
+      //function to confirm user does not already exist
       function test() {
-        console.log("before");
         setTimeout(function(){
-          console.log("pause");
           $.post('/server_alert', function (response) {
-            //var data = response;
             var data = response.message;
-            console.log(data);
+            //console.log(data);
             alert("That username is already in use");
             window.location.reload();
-            //console.log("reloaded");
           }); 
         }, 1000);
-        console.log("after");
     }
   </script>
 </body>
