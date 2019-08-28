@@ -1,6 +1,6 @@
 <!--
-game page is for deleting of account and
-playing the game
+game page is for deleting/editing of account,
+playing the game, and checking the leaderboard
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -122,41 +122,33 @@ playing the game
     }
     }, false);
     var data
+    //redirects to welcome page
     function redirect_welcome() {
         location.replace("/");
     }
+    //asks server for top 5 high scores
     $.post('/gamepage', function (response) {
-        //var data = response;
         data = response.message;
-        console.log(data);
-        //console.log(data[0][1].username);
+        //console.log(data);
         document.getElementById("user").innerHTML = data[1][0].username + " High Score: " + data[1][0].score;
         var x = document.getElementById("myTable");
         var y = x.getElementsByTagName("td");
-        //console.log(data[0][0].username);
-        //console.log(y[0]);
-        //console.log(data[0].length);
         for (var i = 0; i < data[0].length; i++) {
             y[i*2].innerHTML = data[0][i].username;
             y[i*2+1].innerHTML = data[0][i].score;
         }
 
     });
+    //function for handling username and password login
+    //for managing the current account
     function test() {
-        console.log("before");
         setTimeout(function () {
-            console.log("pause");
             $.post('/server_alert2', function (response) {
-                //var data = response;
-                console.log("yo");
                 var data = response.message;
-                console.log(data);
                 alert("That username and password is incorrect");
                 window.location.reload();
-                //console.log("reloaded");
             });
         }, 1000);
-        console.log("after");
     }
     function refresh() {
         location.reload();
@@ -165,9 +157,7 @@ playing the game
 </script>
 
 <script>
-    function refresh() {
-        location.reload();
-    }
+    
     var z_score = document.getElementById("score")
 
 var canvas;
