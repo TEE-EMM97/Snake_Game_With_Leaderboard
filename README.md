@@ -29,3 +29,6 @@ The MySQL database simply requires creating a local database (in this case named
 and a table (named Leaderboard) with the fields username (varchar, not null, and PK), password (varchar, not null), and score (int).
 
 For Node, simply start up the server with "node server.js" and it will begin to listen for client requests.
+
+
+![Capture Image](https://raw.githubusercontent.com/joelstell54/Snake_Game_With_Leaderboard/master/Capture.PNG)
