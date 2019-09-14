@@ -1,5 +1,5 @@
 # Snake Game With Leaderboard
-## Simple Javascript snake game with MySQL and Node.JS integration
+### Simple Javascript snake game with MySQL and Node.JS integration
 
 MySQL Database holds user name, password, and score.
 
@@ -23,7 +23,7 @@ Client webpages for logging in, creating a new user, and accessing the game page
 Javascript snake game taken from http://zetcode.com/javascript/snake/ and adapted.
 * Added leaderboard, highscore, and counter to game.
 
-## Setup
+### Setup
 
 The MySQL database simply requires creating a local database (in this case named javascript_game)
 and a table (named Leaderboard) with the fields username (varchar, not null, and PK), password (varchar, not null), and score (int).
