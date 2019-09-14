@@ -1,4 +1,4 @@
-# Snake_Game_With_Leaderboard
+# Snake Game With Leaderboard
 ## Simple Javascript snake game with MySQL and Node.JS integration
 
 MySQL Database holds user name, password, and score.
