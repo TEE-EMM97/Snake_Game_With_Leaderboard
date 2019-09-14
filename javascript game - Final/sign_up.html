@@ -1,94 +1,89 @@
 <!--
-sign up page is for creating a new user
+signup page is for creating a new user and
+redirecting to game page
 -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Sign_up_page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="mystyle.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <title>Sign_up_page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
 <body>
-  <div class="full-width-container">
-    </br></br>
-    <div class="row">
-      <div class="col-md-5">
-        <button type = "button" class="btn btn-primary btn-lg" onclick="redirect_welcome()">Return Home</button>
-      </div>
-      <div class="col-md-4">
+    <div class="full-width-container">
+        </br></br>
+        <div class="row">
+            <div class="col-md-5">
+                <button type="button" class="btn btn-primary btn-lg" onclick="redirect_welcome()">Return Home</button>
+            </div>
+            <div class="col-md-4">
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="full-width-container">
-    <div class="row">
-      <div class="col-md-4">
-      </div>
-      <div class="col-md-6">
-        <h1>Sign up</h1>
-        <p>Create a custom user name and password</p>
-        <form onSubmit = "return checkPassword(this), test()" action="signup" method="POST" autocomplete="off">
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <input type="password" name="password2" placeholder="Re-enter Password" required>
-          <input type="submit" class="btn btn-primary btn-lg">
-        </form>
-      </div>
-      <div class="col-md-4">
-      </div>
+    <div class="full-width-container">
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-6">
+                <h1>Sign up</h1>
+                <p>Create a custom user name and password</p>
+                <form onSubmit="return checkPassword(this), ping_test()" action="signup" method="POST"
+                    autocomplete="off">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="password2" placeholder="Re-enter Password" required>
+                    <input type="submit" class="btn btn-primary btn-lg">
+                </form>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-      </div>
-      <div class="col-md-4">
-        <br>
-      </div>
-      <div class="col-md-4">
-      </div>
-    </div>
-  </div>
 
 
-  <script>
-  //redirects to welcome page
-    function redirect_welcome() {
-      location.replace("/");
-    }
-    //checks if passwords are equal before submission
-    function checkPassword(form) { 
-          password1 = form.password.value; 
-          password2 = form.password2.value; 
-          if (password1 == '') 
-              alert ("Please enter Password"); 
-          else if (password2 == '') 
-              alert ("Please enter confirm password");    
-          else if (password1 != password2) { 
-              alert ("\nPassword did not match: Please try again...") 
-              return false; 
-          } 
-          else{ 
-              return true; 
-          } 
-      }
-      //function to confirm user does not already exist
-      function test() {
-        setTimeout(function(){
-          $.post('/server_alert', function (response) {
-            var data = response.message;
-            //console.log(data);
-            alert("That username is already in use");
-            window.location.reload();
-          }); 
-        }, 1000);
-    }
-  </script>
+    <script>
+
+        //redirects to login page on click
+        function redirect_welcome() {
+            location.replace("/");
+        }
+
+        //checks if new passwords are equal before submission
+        function checkPassword(form) {
+            password1 = form.password.value;
+            password2 = form.password2.value;
+            if (password1 == '')
+                alert("Please enter a Password");
+            else if (password2 == '')
+                alert("Please confirm password");
+            else if (password1 != password2) {
+                alert("\nPasswords did not match. Please try again")
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        //pings server if username is already in use
+        function ping_test() {
+            setTimeout(function () {
+                $.post('/server_alert', function (response) {
+                    //var data = response;
+                    var data = response.message;
+                    alert("That username is already in use");
+                    window.location.reload();
+                });
+            }, 1000);
+        }
+    </script>
 </body>
 
 </html>

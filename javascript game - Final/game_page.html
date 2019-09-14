@@ -1,6 +1,6 @@
 <!--
-game page is for deleting/editing of account,
-playing the game, and checking the leaderboard
+game page is for deleting of account, 
+changing password, and playing the game
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,9 @@ playing the game, and checking the leaderboard
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <style>
-        canvas {background: black}
+        canvas {
+            background: black
+        }
     </style>
 </head>
 
@@ -25,15 +27,14 @@ playing the game, and checking the leaderboard
         <div class="row">
             <div class="col-md-4">
                 <br>
-                <button type="button" class="btn btn-primary btn-lg btn-space" onclick="redirect_welcome()">Log
-                    Out</button>
+                <button type="button" class="btn btn-primary btn-lg btn-space" onclick="redirect_welcome()">Log Out</button>
             </div>
             <div class="col-md-4">
                 <h1>Welcome to the Javascript Game</h1>
             </div>
             <div class="col-md-4">
                 <br>
-                <form onSubmit="test()" action="account" method="POST">
+                <form onSubmit="ping_test()" action="account" method="POST">
                     <select name="account_options">
                         <option value="1">Delete Account</option>
                         <option value="2">Update Password</option>
@@ -45,42 +46,42 @@ playing the game, and checking the leaderboard
         </div>
         <div class="row">
             <div class="col-md-4">
-                <table id = "myTable" class="table table-hover">
+                <table id="myTable" class="table table-hover">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Score</th>
+                            <th scope="col">#</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Score</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                        <th scope="row">1</th>
-                        <td>mark</td>
-                        <td>body</td>
+                            <th scope="row">1</th>
+                            <td>mark</td>
+                            <td>body</td>
                         </tr>
                         <tr>
-                        <th scope="row">2</th>
-                        <td>thomas</td>
-                        <td></td>
+                            <th scope="row">2</th>
+                            <td>thomas</td>
+                            <td></td>
                         </tr>
                         <tr>
-                        <th scope="row">3</th>
-                        <td></td>
-                        <td></td>
+                            <th scope="row">3</th>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                        <th scope="row">4</th>
-                        <td></td>
-                        <td></td>
+                            <th scope="row">4</th>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                        <th scope="row">5</th>
-                        <td></td>
-                        <td></td>
+                            <th scope="row">5</th>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
-                    </table>
+                </table>
             </div>
         </div>
         <div class="row">
@@ -89,7 +90,7 @@ playing the game, and checking the leaderboard
             <div class="col-md-4">
                 <h3>Game Box</h3>
                 <h3 id=user></h3>
-                <h3 id = cur_score>Current Score:</h3>
+                <h3 id=cur_score>Current Score:</h3>
                 <canvas id="myCanvas" width="500" height="500">
                 </canvas>
             </div>
@@ -98,13 +99,13 @@ playing the game, and checking the leaderboard
             <div class="col-md-4">
 
             </div>
-            <div class ="col-md-2">
-                <button type = "button" class="btn btn-primary btn-lg" onclick="refresh()">Restart</button>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary btn-lg" onclick="refresh()">Restart</button>
             </div>
-            <div class ="col-md-2">
+            <div class="col-md-2">
                 <form action="update_score" method="POST">
-                    <input id = "score" type="hidden" name = "score" value = 5>
-                    <input id = "myBtn" type="submit" class="btn btn-primary btn-lg">
+                    <input id="score" type="hidden" name="score" value=5>
+                    <input id="myBtn" type="submit" class="btn btn-primary btn-lg">
                 </form>
             </div>
         </div>
@@ -115,278 +116,288 @@ playing the game, and checking the leaderboard
 
 </body>
 <script>
-    window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
+
+    //removes default function of keys
+    window.addEventListener("keydown", function (e) {
+        // space and arrow keys
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
     }, false);
+
     var data
-    //redirects to welcome page
+
+    //redirects to welcome page on click
     function redirect_welcome() {
         location.replace("/");
     }
-    //asks server for top 5 high scores
+
+    //fills in table with user names and high scores for the top 5
+    //data is from server response
     $.post('/gamepage', function (response) {
+        //var data = response;
         data = response.message;
-        //console.log(data);
         document.getElementById("user").innerHTML = data[1][0].username + " High Score: " + data[1][0].score;
         var x = document.getElementById("myTable");
         var y = x.getElementsByTagName("td");
         for (var i = 0; i < data[0].length; i++) {
-            y[i*2].innerHTML = data[0][i].username;
-            y[i*2+1].innerHTML = data[0][i].score;
+            y[i * 2].innerHTML = data[0][i].username;
+            y[i * 2 + 1].innerHTML = data[0][i].score;
         }
 
     });
-    //function for handling username and password login
-    //for managing the current account
-    function test() {
+
+    //if password entered is incorrect an alert is sent
+    //otherwise user is allowed into the password change page
+    function ping_test() {
         setTimeout(function () {
             $.post('/server_alert2', function (response) {
+                //var data = response;
                 var data = response.message;
-                alert("That username and password is incorrect");
+                alert("That password is incorrect");
                 window.location.reload();
             });
         }, 1000);
     }
+    //refreshes page on click
     function refresh() {
         location.reload();
     }
-    
+
 </script>
 
 <script>
-    
+    /*
+    only code for counting score
+    and saving high score to html id's have been added
+    all "game engine" code was pulled from listed source
+    */
     var z_score = document.getElementById("score")
 
-var canvas;
-var ctx;
-var head;
-var apple;
-var ball;
-var dots;
-var apple_x;
-var apple_y;
-var leftDirection = false;
-var rightDirection = true;
-var upDirection = false;
-var downDirection = false;
-var inGame = true;    
-const DOT_SIZE = 10;
-const ALL_DOTS = 900;
-const MAX_RAND = 29;
-const DELAY = 140;
-const C_HEIGHT = 300;
-const C_WIDTH = 300;    
-const LEFT_KEY = 37;
-const RIGHT_KEY = 39;
-const UP_KEY = 38;
-const DOWN_KEY = 40;
+    var canvas;
+    var ctx;
+    var head;
+    var apple;
+    var ball;
+    var dots;
+    var apple_x;
+    var apple_y;
+    var leftDirection = false;
+    var rightDirection = true;
+    var upDirection = false;
+    var downDirection = false;
+    var inGame = true;
+    const DOT_SIZE = 10;
+    const ALL_DOTS = 900;
+    const MAX_RAND = 29;
+    const DELAY = 140;
+    const C_HEIGHT = 300;
+    const C_WIDTH = 300;
+    const LEFT_KEY = 37;
+    const RIGHT_KEY = 39;
+    const UP_KEY = 38;
+    const DOWN_KEY = 40;
 
-var x = new Array(ALL_DOTS);
-var y = new Array(ALL_DOTS);
+    var x = new Array(ALL_DOTS);
+    var y = new Array(ALL_DOTS);
 
-var count = 0;
+    var count = 0;
 
-function init() {
-    
-    canvas = document.getElementById('myCanvas');
-    ctx = canvas.getContext('2d');
+    function init() {
 
-    loadImages();
-    createSnake();
-    locateApple();
-    setTimeout("gameCycle()", DELAY);
-}    
+        canvas = document.getElementById('myCanvas');
+        ctx = canvas.getContext('2d');
 
-function loadImages() {
-    
-    head = new Image();
-    head.src = 'head.png';    
-    
-    ball = new Image();
-    ball.src = 'dot.png'; 
-    
-    apple = new Image();
-    apple.src = 'apple.png'; 
-}
-
-function createSnake() {
-
-    dots = 3;
-
-    for (var z = 0; z < dots; z++) {
-        x[z] = 50 - z * 10;
-        y[z] = 50;
-    }
-}
-
-function checkApple() {
-
-    if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        dots++;
+        loadImages();
+        createSnake();
         locateApple();
+        setTimeout("gameCycle()", DELAY);
     }
-}    
 
-function doDrawing() {
-    
-    ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
-    
-    if (inGame) {
+    function loadImages() {
 
-        ctx.drawImage(apple, apple_x, apple_y);
+        head = new Image();
+        head.src = 'head.png';
+
+        ball = new Image();
+        ball.src = 'dot.png';
+
+        apple = new Image();
+        apple.src = 'apple.png';
+    }
+
+    function createSnake() {
+
+        dots = 3;
 
         for (var z = 0; z < dots; z++) {
-            
-            if (z == 0) {
-                ctx.drawImage(head, x[z], y[z]);
-            } else {
-                ctx.drawImage(ball, x[z], y[z]);
+            x[z] = 50 - z * 10;
+            y[z] = 50;
+        }
+    }
+
+    function checkApple() {
+
+        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+
+            dots++;
+            locateApple();
+        }
+    }
+
+    function doDrawing() {
+
+        ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
+
+        if (inGame) {
+
+            ctx.drawImage(apple, apple_x, apple_y);
+
+            for (var z = 0; z < dots; z++) {
+
+                if (z == 0) {
+                    ctx.drawImage(head, x[z], y[z]);
+                } else {
+                    ctx.drawImage(ball, x[z], y[z]);
+                }
             }
-        }    
-    } else {
+        } else {
 
-        gameOver();
-    }        
-}
-
-function gameOver() {
-    
-    ctx.fillStyle = 'white';
-    ctx.textBaseline = 'middle'; 
-    ctx.textAlign = 'center'; 
-    ctx.font = 'normal bold 18px serif';
-    
-    ctx.fillText('Game over', C_WIDTH/2, C_HEIGHT/2);
-
-    var high_score = data[1][0].score;
-    console.log(high_score);
-    console.log(count);
-    if (high_score < count) {
-        z_score.value = count;
-    } else {
-        //diable submit button
-        document.getElementById("myBtn").disabled = true;
-        console.log("here");
-    }
-}
-
-function checkApple() {
-
-    if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        dots++;
-        locateApple();
-        //console.log("collided");
-        count++;
-        
-         
-        document.getElementById("cur_score").innerHTML =" " + count;
-    }
-}
-
-function move() {
-
-    for (var z = dots; z > 0; z--) {
-    
-        x[z] = x[(z - 1)];
-        y[z] = y[(z - 1)];
+            gameOver();
+        }
     }
 
-    if (leftDirection) {
-    
-        x[0] -= DOT_SIZE;
+    function gameOver() {
+
+        ctx.fillStyle = 'white';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.font = 'normal bold 18px serif';
+
+        ctx.fillText('Game over', C_WIDTH / 2, C_HEIGHT / 2);
+
+        var high_score = data[1][0].score;
+        if (high_score < count) {
+            z_score.value = count;
+        } else {
+            //diable submit button
+            document.getElementById("myBtn").disabled = true;
+        }
     }
 
-    if (rightDirection) {
-    
-        x[0] += DOT_SIZE;
+    function checkApple() {
+
+        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+
+            dots++;
+            locateApple();
+            //console.log("collided");
+            count++;
+
+
+            document.getElementById("cur_score").innerHTML = " " + count;
+        }
     }
 
-    if (upDirection) {
-    
-        y[0] -= DOT_SIZE;
+    function move() {
+
+        for (var z = dots; z > 0; z--) {
+
+            x[z] = x[(z - 1)];
+            y[z] = y[(z - 1)];
+        }
+
+        if (leftDirection) {
+
+            x[0] -= DOT_SIZE;
+        }
+
+        if (rightDirection) {
+
+            x[0] += DOT_SIZE;
+        }
+
+        if (upDirection) {
+
+            y[0] -= DOT_SIZE;
+        }
+
+        if (downDirection) {
+
+            y[0] += DOT_SIZE;
+        }
     }
 
-    if (downDirection) {
-    
-        y[0] += DOT_SIZE;
-    }
-}    
+    function checkCollision() {
 
-function checkCollision() {
+        for (var z = dots; z > 0; z--) {
 
-    for (var z = dots; z > 0; z--) {
+            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
+                inGame = false;
+            }
+        }
 
-        if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
+        if (y[0] >= C_HEIGHT) {
+
+            inGame = false;
+        }
+
+        if (y[0] < 0) {
+
+            inGame = false;
+        }
+
+        if (x[0] >= C_WIDTH) {
+
+            inGame = false;
+        }
+
+        if (x[0] < 0) {
+
             inGame = false;
         }
     }
 
-    if (y[0] >= C_HEIGHT) {
-    
-        inGame = false;
+    function locateApple() {
+        var r = Math.floor(Math.random() * MAX_RAND);
+        apple_x = r * DOT_SIZE;
+        r = Math.floor(Math.random() * MAX_RAND);
+        apple_y = r * DOT_SIZE;
     }
 
-    if (y[0] < 0) {
-    
-       inGame = false;
+    function gameCycle() {
+        if (inGame) {
+            checkApple();
+            checkCollision();
+            move();
+            doDrawing();
+            setTimeout("gameCycle()", DELAY);
+        }
     }
 
-    if (x[0] >= C_WIDTH) {
-    
-      inGame = false;
-    }
-
-    if (x[0] < 0) {
-    
-      inGame = false;
-    }
-}
-
-function locateApple() {
-    var r = Math.floor(Math.random() * MAX_RAND);
-    apple_x = r * DOT_SIZE;
-    r = Math.floor(Math.random() * MAX_RAND);
-    apple_y = r * DOT_SIZE;
-}    
-
-function gameCycle() {
-    if (inGame) {
-        checkApple();
-        checkCollision();
-        move();
-        doDrawing();
-        setTimeout("gameCycle()", DELAY);
-    }
-}
-
-onkeydown = function(e) {
-    var key = e.keyCode;
-    if ((key == LEFT_KEY) && (!rightDirection)) {   
-        leftDirection = true;
-        upDirection = false;
-        downDirection = false;
-    }
-    if ((key == RIGHT_KEY) && (!leftDirection)) {
-        rightDirection = true;
-        upDirection = false;
-        downDirection = false;
-    }
-    if ((key == UP_KEY) && (!downDirection)) {
-        upDirection = true;
-        rightDirection = false;
-        leftDirection = false;
-    }
-    if ((key == DOWN_KEY) && (!upDirection)) {
-        downDirection = true;
-        rightDirection = false;
-        leftDirection = false;
-    }        
-};    
+    onkeydown = function (e) {
+        var key = e.keyCode;
+        if ((key == LEFT_KEY) && (!rightDirection)) {
+            leftDirection = true;
+            upDirection = false;
+            downDirection = false;
+        }
+        if ((key == RIGHT_KEY) && (!leftDirection)) {
+            rightDirection = true;
+            upDirection = false;
+            downDirection = false;
+        }
+        if ((key == UP_KEY) && (!downDirection)) {
+            upDirection = true;
+            rightDirection = false;
+            leftDirection = false;
+        }
+        if ((key == DOWN_KEY) && (!upDirection)) {
+            downDirection = true;
+            rightDirection = false;
+            leftDirection = false;
+        }
+    };    
 </script>
 
 

@@ -1,77 +1,80 @@
 <!--
-welcome page is for logging in directly or
+welcome page is for logging in or
 redirecting the user to the sign up page
 -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Welcome to the Javascript Game</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/mystyle.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <title>Welcome to the Javascript Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/mystyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
 <body>
     <div class="full-width-container">
-    </br></br>
+        </br></br>
         <div class="row">
-          <div class="col-md-4">
-          </div>
-          <div class="col-md-4 a1">
-            <h1>Welcome to the Javascript Game</h1>
-            <h1>Please sign up or log in</h1>
-          </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4 a1">
+                <h1>Welcome to the Javascript Game</h1>
+                <h1>Please sign up or log in</h1>
+            </div>
         </div>
     </div>
-  <div class="full-width-container">
-    <div class="row">
-      <div class="col-md-4">
-      </div>
-      <div class="col-md-4">
-        <h1>Login</h1>
-        <form onSubmit = "test()" action="login" method="POST" autocomplete="off">
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <input type="submit" class="btn btn-primary btn-lg">
-        </form>
-      </div>
-      <div class="col-md-4">
-      </div>
+    <div class="full-width-container">
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1>Login</h1>
+                <form onSubmit="ping_test()" action="login" method="POST" autocomplete="off">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="submit" class="btn btn-primary btn-lg">
+                </form>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <br>
+                <button type="button" class="btn btn-primary btn-lg" onclick="redirect_signup()">Sign Up</button>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-            <br>
-            <button type = "button" class="btn btn-primary btn-lg" onclick="redirect_signup()">Sign Up</button>
-        </div>
-        <div class="col-md-4">
-        </div>
-      </div>
-</div>
-  
 
-  <script>
 
-    function redirect_signup() {
-      location.replace(window.location.href + "login");
-    }
-    function test() {
-        setTimeout(function(){
-          $.post('/server_alert', function (response) {
-            //var data = response;
-            var data = response.message;
-            alert("That username and password is incorrect or does not exist");
-            window.location.reload();
-          }); 
-        }, 1000);
-    }
-  </script>
+    <script>
+
+        //redirects to signup page when clicked
+        function redirect_signup() {
+            location.replace(window.location.href + "login");
+        }
+        //pings server if credentials are correct or not
+        //alerts user if credentials are wrong, redirects to game page if correct
+        function ping_test() {
+            setTimeout(function () {
+                $.post('/server_alert', function (response) {
+                    //var data = response;
+                    var data = response.message;
+                    alert("That username and password is incorrect or does not exist");
+                    window.location.reload();
+                });
+            }, 1000);
+        }
+    </script>
 </body>
 
 </html>
