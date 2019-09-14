@@ -1,18 +1,19 @@
 # Snake_Game_With_Leaderboard
 Simple Javascript snake game with MySQL and Node.JS integration
 
-MySQL Database which holds user name, password, and score.
+MySQL Database holds user name, password, and score.
 
-Node.JS Server for communicating between client and database.
+Node.JS Server communicates between client and database.
 * Used to route requests and responses.
 
 
 Client webpages for logging in, creating a new user, and accessing the game page.
 * Log in page
 	* requests server for log in credentials
+	* alerts user if credentials are incorrect
 * New user page
 	* requests for new user assuming they don't already exist
-	* includes form validation for error/text checking
+	* includes form validation for error/text checking on password
 * Game page allows user to:
     * play the game
     * view leaderboard and high scores
