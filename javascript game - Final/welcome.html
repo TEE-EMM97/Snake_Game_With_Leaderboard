@@ -57,16 +57,15 @@ redirecting the user to the sign up page
   
 
   <script>
-    //function redirects welcome page to login html page
+
     function redirect_signup() {
       location.replace(window.location.href + "login");
     }
-    //function for handling incorrect username/password
     function test() {
         setTimeout(function(){
           $.post('/server_alert', function (response) {
+            //var data = response;
             var data = response.message;
-            //console.log(data);
             alert("That username and password is incorrect or does not exist");
             window.location.reload();
           }); 
